@@ -1,0 +1,29 @@
+#include <iostream> 
+#include <cmath> 
+using namespace std; 
+long long karatsuba(long long x, long long y) { 
+// Base case 
+if (x < 10 || y < 10) 
+return x * y; 
+// Calculate the number of digits 
+int n = max((int)log10(x) + 1, (int)log10(y) + 1); 
+int m = n / 2; 
+long long power = pow(10, m); 
+// Split the numbers 
+long long high1 = x / power; 
+long long low1 = x % power; 
+long long high2 = y / power; 
+long long low2 = y % power; 
+// 3 recursive calls 
+long long z0 = karatsuba(low1, low2); 
+long long z1 = karatsuba(low1 + high1, low2 + high2); 
+long long z2 = karatsuba(high1, high2); 
+// Combine the results 
+return z2 * power * power + (z1 - z2 - z0) * power + z0; 
+} 
+int main() { 
+long long a = 1234; 
+long long b = 5678; 
+cout << "Product: " << karatsuba(a, b) << endl; 
+return 0; 
+}
